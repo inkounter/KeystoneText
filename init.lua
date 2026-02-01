@@ -28,6 +28,13 @@ namespace.Text = {
             return
         end
 
+        -- Update the cache.
+
+        self._cache.mapId = mapId
+        self._cache.level = level
+
+        -- Update the fontstring.
+
         if mapId == nil then
             fontstring:Hide()
         else
@@ -37,16 +44,9 @@ namespace.Text = {
                 level
             )
 
-            -- Show the fontstring if we didn't previously have a keystone.
-
-            if self._cache.mapId == nil then
+            if not fontstring:IsShown() then
                 fontstring:Show()
             end
-
-            -- Update the cache.
-
-            self._cache.mapId = mapId
-            self._cache.level = level
         end
     end,
 
