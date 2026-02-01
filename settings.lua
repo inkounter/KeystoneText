@@ -57,131 +57,138 @@ namespace.Settings = {
         local optionsTable = {
             ["name"] = thisAddonName,
             ["type"] = "group",
+            ["childGroups"] = "tab",
             ["args"] = {
-                ["anchorFrame"] = {
-                    ["order"] = 0,
-                    ["name"] = "Anchor To Frame",
-                    ["type"] = "input",
-                    ["set"] = function(info, value)
-                        KeystoneTextConfig.anchorFrame = value
-                        self:reanchor()
-                    end,
-                    ["get"] = function(info)
-                        return KeystoneTextConfig.anchorFrame
-                    end,
-                },
+                ["anchor"] = {
+                    ["name"] = "Anchor",
+                    ["type"] = "group",
+                    ["args"] = {
+                        ["anchorFrame"] = {
+                            ["order"] = 0,
+                            ["name"] = "Anchor To Frame",
+                            ["type"] = "input",
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.anchorFrame = value
+                                self:reanchor()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.anchorFrame
+                            end,
+                        },
 
-                ["anchorPoint"] = {
-                    ["order"] = 1,
-                    ["name"] = "Anchor Point",
-                    ["type"] = "select",
-                    ["style"] = "dropdown",
-                    ["values"] = {
-                        ["TOPLEFT"]     = "TOPLEFT",
-                        ["TOP"]         = "TOP",
-                        ["TOPRIGHT"]    = "TOPRIGHT",
-                        ["LEFT"]        = "LEFT",
-                        ["CENTER"]      = "CENTER",
-                        ["RIGHT"]       = "RIGHT",
-                        ["BOTTOMLEFT"]  = "BOTTOMLEFT",
-                        ["BOTTOM"]      = "BOTTOM",
-                        ["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+                        ["anchorPoint"] = {
+                            ["order"] = 1,
+                            ["name"] = "Anchor Point",
+                            ["type"] = "select",
+                            ["style"] = "dropdown",
+                            ["values"] = {
+                                ["TOPLEFT"]     = "TOPLEFT",
+                                ["TOP"]         = "TOP",
+                                ["TOPRIGHT"]    = "TOPRIGHT",
+                                ["LEFT"]        = "LEFT",
+                                ["CENTER"]      = "CENTER",
+                                ["RIGHT"]       = "RIGHT",
+                                ["BOTTOMLEFT"]  = "BOTTOMLEFT",
+                                ["BOTTOM"]      = "BOTTOM",
+                                ["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+                            },
+                            ["sorting"] = {
+                                "TOPLEFT",
+                                "TOP",
+                                "TOPRIGHT",
+                                "LEFT",
+                                "CENTER",
+                                "RIGHT",
+                                "BOTTOMLEFT",
+                                "BOTTOM",
+                                "BOTTOMRIGHT",
+                            },
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.anchorPoint = value
+                                self:reanchor()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.anchorPoint
+                            end,
+                        },
+
+                        ["anchorRelativeTo"] = {
+                            ["order"] = 2,
+                            ["name"] = "Anchor Relative To",
+                            ["type"] = "select",
+                            ["style"] = "dropdown",
+                            ["values"] = {
+                                ["TOPLEFT"]     = "TOPLEFT",
+                                ["TOP"]         = "TOP",
+                                ["TOPRIGHT"]    = "TOPRIGHT",
+                                ["LEFT"]        = "LEFT",
+                                ["CENTER"]      = "CENTER",
+                                ["RIGHT"]       = "RIGHT",
+                                ["BOTTOMLEFT"]  = "BOTTOMLEFT",
+                                ["BOTTOM"]      = "BOTTOM",
+                                ["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+                            },
+                            ["sorting"] = {
+                                "TOPLEFT",
+                                "TOP",
+                                "TOPRIGHT",
+                                "LEFT",
+                                "CENTER",
+                                "RIGHT",
+                                "BOTTOMLEFT",
+                                "BOTTOM",
+                                "BOTTOMRIGHT",
+                            },
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.anchorRelativeTo = value
+                                self:reanchor()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.anchorRelativeTo
+                            end,
+                        },
+
+                        ["xOffset"] = {
+                            ["order"] = 3,
+                            ["name"] = "X-Offset",
+                            ["type"] = "range",
+                            ["softMin"] = -500,
+                            ["softMax"] = 500,
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.xOffset = value
+                                self:reanchor()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.xOffset
+                            end,
+                        },
+
+                        ["yOffset"] = {
+                            ["order"] = 4,
+                            ["name"] = "Y-Offset",
+                            ["type"] = "range",
+                            ["softMin"] = -500,
+                            ["softMax"] = 500,
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.yOffset = value
+                                self:reanchor()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.yOffset
+                            end,
+                        },
+
+                        ["resetDefault"] = {
+                            ["type"] = "execute",
+                            ["order"] = 5,
+                            ["name"] = "Reset to Default",
+                            ["func"] = function()
+                                self:assignDefaultConfig()
+                                self:reanchor()
+                            end,
+                        }
                     },
-                    ["sorting"] = {
-                        "TOPLEFT",
-                        "TOP",
-                        "TOPRIGHT",
-                        "LEFT",
-                        "CENTER",
-                        "RIGHT",
-                        "BOTTOMLEFT",
-                        "BOTTOM",
-                        "BOTTOMRIGHT",
-                    },
-                    ["set"] = function(info, value)
-                        KeystoneTextConfig.anchorPoint = value
-                        self:reanchor()
-                    end,
-                    ["get"] = function(info)
-                        return KeystoneTextConfig.anchorPoint
-                    end,
                 },
-
-                ["anchorRelativeTo"] = {
-                    ["order"] = 2,
-                    ["name"] = "Anchor Relative To",
-                    ["type"] = "select",
-                    ["style"] = "dropdown",
-                    ["values"] = {
-                        ["TOPLEFT"]     = "TOPLEFT",
-                        ["TOP"]         = "TOP",
-                        ["TOPRIGHT"]    = "TOPRIGHT",
-                        ["LEFT"]        = "LEFT",
-                        ["CENTER"]      = "CENTER",
-                        ["RIGHT"]       = "RIGHT",
-                        ["BOTTOMLEFT"]  = "BOTTOMLEFT",
-                        ["BOTTOM"]      = "BOTTOM",
-                        ["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-                    },
-                    ["sorting"] = {
-                        "TOPLEFT",
-                        "TOP",
-                        "TOPRIGHT",
-                        "LEFT",
-                        "CENTER",
-                        "RIGHT",
-                        "BOTTOMLEFT",
-                        "BOTTOM",
-                        "BOTTOMRIGHT",
-                    },
-                    ["set"] = function(info, value)
-                        KeystoneTextConfig.anchorRelativeTo = value
-                        self:reanchor()
-                    end,
-                    ["get"] = function(info)
-                        return KeystoneTextConfig.anchorRelativeTo
-                    end,
-                },
-
-                ["xOffset"] = {
-                    ["order"] = 3,
-                    ["name"] = "X-Offset",
-                    ["type"] = "range",
-                    ["softMin"] = -500,
-                    ["softMax"] = 500,
-                    ["set"] = function(info, value)
-                        KeystoneTextConfig.xOffset = value
-                        self:reanchor()
-                    end,
-                    ["get"] = function(info)
-                        return KeystoneTextConfig.xOffset
-                    end,
-                },
-
-                ["yOffset"] = {
-                    ["order"] = 4,
-                    ["name"] = "Y-Offset",
-                    ["type"] = "range",
-                    ["softMin"] = -500,
-                    ["softMax"] = 500,
-                    ["set"] = function(info, value)
-                        KeystoneTextConfig.yOffset = value
-                        self:reanchor()
-                    end,
-                    ["get"] = function(info)
-                        return KeystoneTextConfig.yOffset
-                    end,
-                },
-
-                ["resetDefault"] = {
-                    ["type"] = "execute",
-                    ["order"] = 5,
-                    ["name"] = "Reset to Default",
-                    ["func"] = function()
-                        self:assignDefaultConfig()
-                        self:reanchor()
-                    end,
-                }
             },
         }
         ac:RegisterOptionsTable(thisAddonName, optionsTable, nil)
