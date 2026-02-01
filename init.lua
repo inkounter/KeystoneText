@@ -2,14 +2,13 @@ local thisAddonName, namespace = ...
 
 -- Create the text frame.
 
-local frame = CreateFrame("Frame", "KeystoneTextFrame", UIParent)
-frame:SetSize(100, 20)
+local frame = CreateFrame("Frame", nil, UIParent)
 local fontstring = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 fontstring:SetPoint("CENTER")
 fontstring:SetText("placeholder for keystone text")
-frame:Hide() -- Hide initially until vars are loaded
 
 namespace.frame = frame
+namespace.fontstring = fontstring
 
 -- Define a type to wrap the logic around modifying the fontstring object.
 namespace.Text = {

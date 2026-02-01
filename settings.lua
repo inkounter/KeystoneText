@@ -21,28 +21,33 @@ namespace.Settings = {
         end
     end,
 
-    -- Re-anchor the text frame.
+    -- Re-anchor the fontstring.
     ["reanchor"] = function()
         local config = KeystoneTextConfig
         local frame = namespace.frame
+        local fontstring = namespace.fontstring
         local parent = _G[config.anchorFrame]
         if parent then
-            frame:ClearAllPoints()
-            frame:SetPoint(
+            fontstring:ClearAllPoints()
+            fontstring:SetPoint(
                 config.anchorPoint,
                 parent,
                 config.anchorRelativeTo,
                 config.xOffset,
                 config.yOffset
             )
-            frame:Show()
+            if not frame:IsShown() then
+                frame:Show()
+            end
         else
             print(
                 thisAddonName
                 .. ": Failed to anchor keystone text to nonexistent frame: "
                 .. config.anchorFrame
             )
-            frame:Hide()
+            if frame:IsShown() then
+                frame:Hide()
+            end
         end
     end,
 
