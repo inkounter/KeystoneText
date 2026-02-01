@@ -38,7 +38,8 @@ namespace.Settings = {
             frame:Show()
         else
             print(
-                "Failed to anchor keystone text to nonexistent frame: "
+                thisAddonName
+                .. ": Failed to anchor keystone text to nonexistent frame: "
                 .. config.anchorFrame
             )
             frame:Hide()
