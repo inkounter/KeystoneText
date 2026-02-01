@@ -11,7 +11,7 @@ frame:Hide() -- Hide initially until vars are loaded
 
 namespace.frame = frame
 
--- Define a type to wrap the logic around modifying the `FontString` object.
+-- Define a type to wrap the logic around modifying the fontstring object.
 namespace.Text = {
     -- Cache current the keystone info.
     ["_cache"] = {
@@ -19,8 +19,8 @@ namespace.Text = {
         ["level"] = nil,
     },
 
-    -- Update the `FontString` if the specified keystone `mapId` and `level`
-    -- are different from what we have cached.
+    -- Update the fontstring if the specified keystone `mapId` and `level` are
+    -- different from what we have cached.
     ["_update"] = function(self, mapId, level)
         -- Skip updating the text if the value has not changed.
 
@@ -38,7 +38,7 @@ namespace.Text = {
                 level
             )
 
-            -- Show the frame if we didn't previously have a keystone.
+            -- Show the fontstring if we didn't previously have a keystone.
 
             if self._cache.mapId == nil then
                 fontstring:Show()
@@ -102,7 +102,7 @@ namespace.Text = {
         return tonumber(mapId), tonumber(level)
     end,
 
-    -- Query the API for what keystone we have, then update the `FontString` if
+    -- Query the API for what keystone we have, then update the fontstring if
     -- needed.
     ["updateFromApi"] = function(self)
         local mapId = C_MythicPlus.GetOwnedKeystoneChallengeMapID()
@@ -115,7 +115,7 @@ namespace.Text = {
     end,
 
     -- Try to extract the keystone info from the specified `itemLink` and
-    -- update the `FontString` with that info.  Do nothing if `itemLink` is not
+    -- update the fontstring with that info.  Do nothing if `itemLink` is not
     -- for a keystone.
     ["updateFromItemLink"] = function(self, itemLink)
         local mapId, level = self._getKeystoneInfoFromItemLink(itemLink)
