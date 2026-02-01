@@ -1,5 +1,7 @@
 local thisAddonName, namespace = ...
 
+-- Define the configuration values and how to apply them.
+
 namespace.Settings = {
     ["defaultConfig"] = {
         ["anchorFrame"] = "UIParent",
