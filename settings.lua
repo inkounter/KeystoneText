@@ -15,7 +15,7 @@ local defaultSettings = {
     },
 
     ["font"] = {
-        ["color"] = {0.8, 0, 0.8, 1},
+        ["color"] = {0.64, 0.21, 0.93, 1},
 
         -- Note that the following are set below dynamically by inspecting the
         -- default font template.
