@@ -16,7 +16,7 @@ local EventHandler = {
             end
 
             settings:register()
-            fontstring:reanchor()
+            settings:reanchor()
             fontstring:updateFromApi()
 
             frame:UnregisterEvent("ADDON_LOADED")

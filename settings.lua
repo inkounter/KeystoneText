@@ -33,6 +33,34 @@ namespace.settings = {
         KeystoneTextConfig = deepCopy(defaultSettings)
     end,
 
+    -- Re-anchor the fontstring.
+    ["reanchor"] = function()
+        local config = KeystoneTextConfig
+        local parent = _G[config.anchorFrame]
+        if parent then
+            fontstring:ClearAllPoints()
+            fontstring:SetPoint(
+                config.anchorPoint,
+                parent,
+                config.anchorRelativeTo,
+                config.xOffset,
+                config.yOffset
+            )
+            if not frame:IsShown() then
+                frame:Show()
+            end
+        else
+            print(
+                thisAddonName
+                .. ": Failed to anchor keystone text to nonexistent frame: "
+                .. config.anchorFrame
+            )
+            if frame:IsShown() then
+                frame:Hide()
+            end
+        end
+    end,
+
     -- Register the settings with the UI.
     ["register"] = function(self)
         local ac = LibStub("AceConfig-3.0")
@@ -51,7 +79,7 @@ namespace.settings = {
                             ["type"] = "input",
                             ["set"] = function(info, value)
                                 KeystoneTextConfig.anchorFrame = value
-                                fontstring:reanchor()
+                                self:reanchor()
                             end,
                             ["get"] = function(info)
                                 return KeystoneTextConfig.anchorFrame
@@ -87,7 +115,7 @@ namespace.settings = {
                             },
                             ["set"] = function(info, value)
                                 KeystoneTextConfig.anchorPoint = value
-                                fontstring:reanchor()
+                                self:reanchor()
                             end,
                             ["get"] = function(info)
                                 return KeystoneTextConfig.anchorPoint
@@ -123,7 +151,7 @@ namespace.settings = {
                             },
                             ["set"] = function(info, value)
                                 KeystoneTextConfig.anchorRelativeTo = value
-                                fontstring:reanchor()
+                                self:reanchor()
                             end,
                             ["get"] = function(info)
                                 return KeystoneTextConfig.anchorRelativeTo
@@ -138,7 +166,7 @@ namespace.settings = {
                             ["softMax"] = 500,
                             ["set"] = function(info, value)
                                 KeystoneTextConfig.xOffset = value
-                                fontstring:reanchor()
+                                self:reanchor()
                             end,
                             ["get"] = function(info)
                                 return KeystoneTextConfig.xOffset
@@ -153,7 +181,7 @@ namespace.settings = {
                             ["softMax"] = 500,
                             ["set"] = function(info, value)
                                 KeystoneTextConfig.yOffset = value
-                                fontstring:reanchor()
+                                self:reanchor()
                             end,
                             ["get"] = function(info)
                                 return KeystoneTextConfig.yOffset
@@ -166,7 +194,7 @@ namespace.settings = {
                             ["name"] = "Reset to Default",
                             ["func"] = function()
                                 self:assignDefaultConfig()
-                                fontstring:reanchor()
+                                self:reanchor()
                             end,
                         }
                     },

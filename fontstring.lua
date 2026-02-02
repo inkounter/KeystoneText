@@ -119,32 +119,3 @@ namespace.fontstring.updateFromItemLink = function(self, itemLink)
 
     updateDisplay(self, mapId, level)
 end
-
--- Re-anchor the fontstring.
-namespace.fontstring.reanchor = function(self)
-    local frame = namespace.frame
-    local config = KeystoneTextConfig
-    local parent = _G[config.anchorFrame]
-    if parent then
-        self:ClearAllPoints()
-        self:SetPoint(
-            config.anchorPoint,
-            parent,
-            config.anchorRelativeTo,
-            config.xOffset,
-            config.yOffset
-        )
-        if not frame:IsShown() then
-            frame:Show()
-        end
-    else
-        print(
-            thisAddonName
-            .. ": Failed to anchor keystone text to nonexistent frame: "
-            .. config.anchorFrame
-        )
-        if frame:IsShown() then
-            frame:Hide()
-        end
-    end
-end
