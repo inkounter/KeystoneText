@@ -6,12 +6,17 @@ local frame = namespace.frame
 local fontstring = namespace.fontstring
 
 local defaultSettings = {
-    ["anchorFrame"] = "UIParent",
-    ["anchorPoint"] = "TOP",
-    ["anchorRelativeTo"] = "TOP",
-    ["xOffset"] = 0,
-    ["yOffset"] = 0,
-    ["fontColor"] = {0.8, 0, 0.8, 1},
+    ["anchor"] = {
+        ["frame"] = "UIParent",
+        ["point"] = "TOP",
+        ["relativeTo"] = "TOP",
+        ["xOffset"] = 0,
+        ["yOffset"] = 0,
+    },
+
+    ["font"] = {
+        ["color"] = {0.8, 0, 0.8, 1},
+    },
 }
 
 -- Return a deep copy of the specified `source`.
@@ -37,15 +42,15 @@ namespace.settings = {
     -- Re-anchor the fontstring.
     ["reanchor"] = function()
         local config = KeystoneTextConfig
-        local parent = _G[config.anchorFrame]
+        local parent = _G[config.anchor.frame]
         if parent then
             fontstring:ClearAllPoints()
             fontstring:SetPoint(
-                config.anchorPoint,
+                config.anchor.point,
                 parent,
-                config.anchorRelativeTo,
-                config.xOffset,
-                config.yOffset
+                config.anchor.relativeTo,
+                config.anchor.xOffset,
+                config.anchor.yOffset
             )
             if not frame:IsShown() then
                 frame:Show()
@@ -54,7 +59,7 @@ namespace.settings = {
             print(
                 thisAddonName
                 .. ": Failed to anchor keystone text to nonexistent frame: "
-                .. config.anchorFrame
+                .. config.anchor.frame
             )
             if frame:IsShown() then
                 frame:Hide()
@@ -64,7 +69,7 @@ namespace.settings = {
 
     -- Apply the font config to the fontstring.
     ["restyle"] = function()
-        fontstring:SetTextColor(unpack(KeystoneTextConfig.fontColor))
+        fontstring:SetTextColor(unpack(KeystoneTextConfig.font.color))
     end,
 
     -- Register the settings with the UI.
@@ -84,11 +89,11 @@ namespace.settings = {
                             ["name"] = "Anchor To Frame",
                             ["type"] = "input",
                             ["set"] = function(info, value)
-                                KeystoneTextConfig.anchorFrame = value
+                                KeystoneTextConfig.anchor.frame = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchorFrame
+                                return KeystoneTextConfig.anchor.frame
                             end,
                         },
 
@@ -120,11 +125,11 @@ namespace.settings = {
                                 "BOTTOMRIGHT",
                             },
                             ["set"] = function(info, value)
-                                KeystoneTextConfig.anchorPoint = value
+                                KeystoneTextConfig.anchor.point = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchorPoint
+                                return KeystoneTextConfig.anchor.point
                             end,
                         },
 
@@ -156,11 +161,11 @@ namespace.settings = {
                                 "BOTTOMRIGHT",
                             },
                             ["set"] = function(info, value)
-                                KeystoneTextConfig.anchorRelativeTo = value
+                                KeystoneTextConfig.anchor.relativeTo = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchorRelativeTo
+                                return KeystoneTextConfig.anchor.relativeTo
                             end,
                         },
 
@@ -171,11 +176,11 @@ namespace.settings = {
                             ["softMin"] = -500,
                             ["softMax"] = 500,
                             ["set"] = function(info, value)
-                                KeystoneTextConfig.xOffset = value
+                                KeystoneTextConfig.anchor.xOffset = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.xOffset
+                                return KeystoneTextConfig.anchor.xOffset
                             end,
                         },
 
@@ -186,11 +191,11 @@ namespace.settings = {
                             ["softMin"] = -500,
                             ["softMax"] = 500,
                             ["set"] = function(info, value)
-                                KeystoneTextConfig.yOffset = value
+                                KeystoneTextConfig.anchor.yOffset = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.yOffset
+                                return KeystoneTextConfig.anchor.yOffset
                             end,
                         },
 
@@ -221,11 +226,11 @@ namespace.settings = {
                             ["type"] = "color",
                             ["hasAlpha"] = true,
                             ["set"] = function(info, r, g, b, a)
-                                KeystoneTextConfig.fontColor = {r, g, b, a}
+                                KeystoneTextConfig.font.color = {r, g, b, a}
                                 self:restyle()
                             end,
                             ["get"] = function(info)
-                                return unpack(KeystoneTextConfig.fontColor)
+                                return unpack(KeystoneTextConfig.font.color)
                             end,
                         },
                     },
