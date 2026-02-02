@@ -335,6 +335,7 @@ namespace.settings = {
                             ["type"] = "range",
                             ["min"] = 6,
                             ["max"] = 100,
+                            ["step"] = 1,
                             ["set"] = function(info, value)
                                 KeystoneTextConfig.font = (
                                     KeystoneTextConfig.font or {}
