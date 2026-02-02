@@ -2,41 +2,45 @@ local thisAddonName, namespace = ...
 
 -- Define event handlers to attach to the addon frame.
 
+local fontstring = namespace.fontstring
+local settings = namespace.settings
+local frame = namespace.frame
+
 local EventHandler = {
     ["ADDON_LOADED"] = function(addonName)
         if addonName == thisAddonName then
             -- Initialize the Saved Variable if it doesn't exist.
 
             if KeystoneTextConfig == nil then
-                namespace.Settings:assignDefaultConfig()
+                settings:assignDefaultConfig()
             end
 
-            namespace.Settings:register()
-            namespace.Settings:reanchor()
-            namespace.fontstring:updateFromApi()
+            settings:register()
+            settings:reanchor()
+            fontstring:updateFromApi()
 
-            namespace.frame:UnregisterEvent("ADDON_LOADED")
+            frame:UnregisterEvent("ADDON_LOADED")
         end
     end,
 
     ["CHALLENGE_MODE_MAPS_UPDATE"] = function()
-        namespace.fontstring:updateFromApi()
+        fontstring:updateFromApi()
     end,
 
     ["BAG_UPDATE_DELAYED"] = function()
-        namespace.fontstring:updateFromApi()
+        fontstring:updateFromApi()
     end,
 
     ["ITEM_CHANGED"] = function(oldItemLink, newItemLink)
-        namespace.fontstring:updateFromItemLink(newItemLink)
+        fontstring:updateFromItemLink(newItemLink)
     end,
 }
 
 for event, _ in pairs(EventHandler) do
-    namespace.frame:RegisterEvent(event)
+    frame:RegisterEvent(event)
 end
 
-namespace.frame:SetScript(
+frame:SetScript(
     "OnEvent",
     function(frame, event, ...) EventHandler[event](...) end
 )
