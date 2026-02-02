@@ -11,6 +11,7 @@ local defaultSettings = {
     ["anchorRelativeTo"] = "TOP",
     ["xOffset"] = 0,
     ["yOffset"] = 0,
+    ["fontColor"] = {0.8, 0, 0.8, 1},
 }
 
 -- Return a deep copy of the specified `source`.
@@ -59,6 +60,11 @@ namespace.settings = {
                 frame:Hide()
             end
         end
+    end,
+
+    -- Apply the font config to the fontstring.
+    ["restyle"] = function()
+        fontstring:SetTextColor(unpack(KeystoneTextConfig.fontColor))
     end,
 
     -- Register the settings with the UI.
@@ -193,10 +199,35 @@ namespace.settings = {
                             ["order"] = 5,
                             ["name"] = "Reset to Default",
                             ["func"] = function()
+                                -- TODO: This reset button should reset only
+                                -- the settings in this group.  For now, as a
+                                -- hack, it resets *all* settings.
+
                                 self:assignDefaultConfig()
                                 self:reanchor()
+                                self:restyle()
                             end,
                         }
+                    },
+                },
+
+                ["font"] = {
+                    ["name"] = "Font",
+                    ["type"] = "group",
+                    ["args"] = {
+                        ["color"] = {
+                            ["order"] = 0,
+                            ["name"] = "Color",
+                            ["type"] = "color",
+                            ["hasAlpha"] = true,
+                            ["set"] = function(info, r, g, b, a)
+                                KeystoneTextConfig.fontColor = {r, g, b, a}
+                                self:restyle()
+                            end,
+                            ["get"] = function(info)
+                                return unpack(KeystoneTextConfig.fontColor)
+                            end,
+                        },
                     },
                 },
             },
