@@ -12,7 +12,7 @@ local EventHandler = {
             -- Initialize the Saved Variable if it doesn't exist.
 
             if KeystoneTextConfig == nil then
-                settings:assignDefaultConfig()
+                KeystoneTextConfig = {}
             end
 
             settings:register()

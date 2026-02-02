@@ -70,32 +70,7 @@ local function getConfigOrDefault(...)
     return getConfigFromRoot(defaultSettings, false, ...)
 end
 
--- Return a deep copy of the specified `source`.
-local function deepCopy(source)
-    if type(source) ~= "table" then
-        return source
-    end
-
-    local result = {}
-    for k, v in pairs(source) do
-        result[deepCopy(k)] = deepCopy(v)
-    end
-    return result
-end
-
--- Set the `KeystoneTextConfig`'s specified `group` subkey to that group's
--- defaults.
-local function assignDefaultConfigGroup(group)
-    KeystoneTextConfig[group] = deepCopy(defaultSettings[group])
-end
-
 namespace.settings = {
-    -- Overwrite the `KeystoneTextConfig` global variable with a copy of the
-    -- defaults.  Note that this does not apply any changes to the UI.
-    ["assignDefaultConfig"] = function(self)
-        KeystoneTextConfig = deepCopy(defaultSettings)
-    end,
-
     -- Re-anchor the fontstring.
     ["reanchor"] = function()
         local parent = _G[getConfigOrDefault("anchor", "frame")]
@@ -283,7 +258,7 @@ namespace.settings = {
                             ["order"] = 5,
                             ["name"] = "Reset to Default",
                             ["func"] = function()
-                                assignDefaultConfigGroup("anchor")
+                                KeystoneTextConfig.anchor = nil
                                 self:reanchor()
                             end,
                         }
@@ -376,7 +351,7 @@ namespace.settings = {
                             ["order"] = 4,
                             ["name"] = "Reset to Default",
                             ["func"] = function()
-                                assignDefaultConfigGroup("font")
+                                KeystoneTextConfig.font = nil
                                 self:restyle()
                             end,
                         }
