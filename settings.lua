@@ -13,15 +13,24 @@ local defaultSettings = {
     ["yOffset"] = 0,
 }
 
+-- Return a deep copy of the specified `source`.
+local function deepCopy(source)
+    if type(source) ~= "table" then
+        return source
+    end
+
+    local result = {}
+    for k, v in pairs(source) do
+        result[deepCopy(k)] = deepCopy(v)
+    end
+    return result
+end
+
 namespace.settings = {
-    -- Overwrite the `KeystoneTextConfig` global variable with a (shallow) copy
-    -- of the defaults.  Note that this does not apply any changes to the UI.
+    -- Overwrite the `KeystoneTextConfig` global variable with a copy of the
+    -- defaults.  Note that this does not apply any changes to the UI.
     ["assignDefaultConfig"] = function(self)
-        KeystoneTextConfig = {}
-        local config = KeystoneTextConfig
-        for k, v in pairs(defaultSettings) do
-            config[k] = v
-        end
+        KeystoneTextConfig = deepCopy(defaultSettings)
     end,
 
     -- Re-anchor the fontstring.
