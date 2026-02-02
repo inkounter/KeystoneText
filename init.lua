@@ -1,6 +1,6 @@
 local thisAddonName, namespace = ...
 
--- Create the text frame.
+-- Create the addon frame and fontstring.
 
 local frame = CreateFrame("Frame", nil, UIParent)
 local fontstring = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")

@@ -16,8 +16,18 @@ local defaultSettings = {
 
     ["font"] = {
         ["color"] = {0.8, 0, 0.8, 1},
+
+        -- Note that the following are set below dynamically by inspecting the
+        -- default font template.
+
+        -- ["type"] = nil,
+        -- ["size"] = nil,
+        -- ["flags"] = nil,
     },
 }
+defaultSettings.font.type,
+    defaultSettings.font.size,
+    defaultSettings.font.flags = GameFontNormal:GetFont()
 
 -- Return a deep copy of the specified `source`.
 local function deepCopy(source)
@@ -70,6 +80,11 @@ namespace.settings = {
     -- Apply the font config to the fontstring.
     ["restyle"] = function()
         fontstring:SetTextColor(unpack(KeystoneTextConfig.font.color))
+        fontstring:SetFont(
+            KeystoneTextConfig.font.type,
+            KeystoneTextConfig.font.size,
+            KeystoneTextConfig.font.flags
+        )
     end,
 
     -- Register the settings with the UI.
@@ -231,6 +246,54 @@ namespace.settings = {
                             end,
                             ["get"] = function(info)
                                 return unpack(KeystoneTextConfig.font.color)
+                            end,
+                        },
+
+                        ["type"] = {
+                            ["order"] = 1,
+                            ["name"] = "Type",
+                            ["type"] = "input",
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.font.type = value
+                                self:restyle()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.font.type
+                            end,
+                        },
+
+                        ["size"] = {
+                            ["order"] = 2,
+                            ["name"] = "Size",
+                            ["type"] = "range",
+                            ["min"] = 6,
+                            ["max"] = 100,
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.font.size = value
+                                self:restyle()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.font.size
+                            end,
+                        },
+
+                        ["flags"] = {
+                            ["order"] = 3,
+                            ["name"] = "Flags",
+                            ["type"] = "select",
+                            ["style"] = "dropdown",
+                            ["values"] = {
+                                [""]             = "None",
+                                ["OUTLINE"]      = "Outline",
+                                ["THICKOUTLINE"] = "Thick Outline",
+                                ["MONOCHROME"]   = "Monochrome",
+                            },
+                            ["set"] = function(info, value)
+                                KeystoneTextConfig.font.flags = value
+                                self:restyle()
+                            end,
+                            ["get"] = function(info)
+                                return KeystoneTextConfig.font.flags
                             end,
                         },
                     },
