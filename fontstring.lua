@@ -119,3 +119,8 @@ namespace.fontstring.updateFromItemLink = function(self, itemLink)
 
     updateDisplay(self, mapId, level)
 end
+
+-- Return `true` if we currently have a keystone.  Otherwise, return `false`.
+namespace.fontstring.hasKeystone = function(self)
+    return cachedMapId ~= nil
+end
