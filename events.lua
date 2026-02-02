@@ -26,6 +26,13 @@ local EventHandler = {
 
     ["CHALLENGE_MODE_MAPS_UPDATE"] = function()
         fontstring:updateFromApi()
+
+        -- We rely on only the first of these updates per `/reload` to know
+        -- when to query the `C_ChallengeMode` API.  It doesn't look like
+        -- future occurrences of this event are useful; it's fired periodically
+        -- at arbitrary intervals and is not fired when our keystone changes.
+
+        frame:UnregisterEvent("CHALLENGE_MODE_MAPS_UPDATE")
     end,
 
     ["BAG_UPDATE_DELAYED"] = function()
