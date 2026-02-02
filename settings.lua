@@ -42,6 +42,12 @@ local function deepCopy(source)
     return result
 end
 
+-- Set the `KeystoneTextConfig`'s specified `group` subkey to that group's
+-- defaults.
+local function assignDefaultConfigGroup(group)
+    KeystoneTextConfig[group] = deepCopy(defaultSettings[group])
+end
+
 namespace.settings = {
     -- Overwrite the `KeystoneTextConfig` global variable with a copy of the
     -- defaults.  Note that this does not apply any changes to the UI.
@@ -219,13 +225,8 @@ namespace.settings = {
                             ["order"] = 5,
                             ["name"] = "Reset to Default",
                             ["func"] = function()
-                                -- TODO: This reset button should reset only
-                                -- the settings in this group.  For now, as a
-                                -- hack, it resets *all* settings.
-
-                                self:assignDefaultConfig()
+                                assignDefaultConfigGroup("anchor")
                                 self:reanchor()
-                                self:restyle()
                             end,
                         }
                     },
@@ -296,6 +297,16 @@ namespace.settings = {
                                 return KeystoneTextConfig.font.flags
                             end,
                         },
+
+                        ["resetDefault"] = {
+                            ["type"] = "execute",
+                            ["order"] = 4,
+                            ["name"] = "Reset to Default",
+                            ["func"] = function()
+                                assignDefaultConfigGroup("font")
+                                self:restyle()
+                            end,
+                        }
                     },
                 },
             },
