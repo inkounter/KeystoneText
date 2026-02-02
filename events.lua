@@ -13,22 +13,22 @@ local EventHandler = {
 
             namespace.Settings:register()
             namespace.Settings:reanchor()
-            namespace.Text:updateFromApi()
+            namespace.fontstring:updateFromApi()
 
             namespace.frame:UnregisterEvent("ADDON_LOADED")
         end
     end,
 
     ["CHALLENGE_MODE_MAPS_UPDATE"] = function()
-        namespace.Text:updateFromApi()
+        namespace.fontstring:updateFromApi()
     end,
 
     ["BAG_UPDATE_DELAYED"] = function()
-        namespace.Text:updateFromApi()
+        namespace.fontstring:updateFromApi()
     end,
 
     ["ITEM_CHANGED"] = function(oldItemLink, newItemLink)
-        namespace.Text:updateFromItemLink(newItemLink)
+        namespace.fontstring:updateFromItemLink(newItemLink)
     end,
 }
 
