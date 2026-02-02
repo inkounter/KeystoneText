@@ -35,6 +35,16 @@ local EventHandler = {
         frame:UnregisterEvent("CHALLENGE_MODE_MAPS_UPDATE")
     end,
 
+    ["CHALLENGE_MODE_START"] = function()
+        fontstring:updateFromApi()
+    end,
+
+    ["CHALLENGE_MODE_COMPLETED"] = function()
+        -- The keystone changes after this event is fired. Schedule an update.
+
+        C_Timer.After(1, function() fontstring:updateFromApi() end)
+    end,
+
     ["BAG_UPDATE_DELAYED"] = function()
         fontstring:updateFromApi()
     end,
