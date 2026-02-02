@@ -29,6 +29,47 @@ defaultSettings.font.type,
     defaultSettings.font.size,
     defaultSettings.font.flags = GameFontNormal:GetFont()
 
+-- Key into the specified `root` for all of the passed-in keys and return the
+-- resulting node's value.  If the specified `allowMistype` is `true`, then
+-- return `nil` upon the first invalid key access; otherwise, allow the invalid
+-- key access to raise an error.  Note that the last key access may succeed and
+-- return `nil` if it's performed on a table, even if the key does not exist in
+-- that table (as is standard lua table lookup behavior).
+local function getConfigFromRoot(root, allowMistype, ...)
+    local node = root
+    local numKeys = select("#", ...)
+    for i = 1, numKeys do
+        local key = select(i, ...)
+
+        if not allowMistype or type(node) == "table" then
+            -- Traverse for this key.  Either it's safe to do so, or
+            -- `allowMistype` is `false` and we'll hit an exception.
+
+            node = node[key]
+        elseif allowMistype then
+            return nil
+        end
+    end
+
+    return node
+end
+
+-- Key into the `KeystoneTextConfig` for all of the passed-in keys and return
+-- the resulting node's value, if it exists.  Otherwise, return the value for
+-- the same key accesses in `defaultSettings`.  Raise an error if the requested
+-- keys cannot be looked up in both tables.  Note that this function may
+-- succeed and return `nil` even if the last key exists in neither
+-- `KeystoneTextConfig` or `defaultSettings` (as is standard lua table lookup
+-- behavior).
+local function getConfigOrDefault(...)
+    local userConfig = getConfigFromRoot(KeystoneTextConfig, true, ...)
+    if userConfig ~= nil then
+        return userConfig
+    end
+
+    return getConfigFromRoot(defaultSettings, false, ...)
+end
+
 -- Return a deep copy of the specified `source`.
 local function deepCopy(source)
     if type(source) ~= "table" then
@@ -57,16 +98,15 @@ namespace.settings = {
 
     -- Re-anchor the fontstring.
     ["reanchor"] = function()
-        local config = KeystoneTextConfig
-        local parent = _G[config.anchor.frame]
+        local parent = _G[getConfigOrDefault("anchor", "frame")]
         if parent then
             fontstring:ClearAllPoints()
             fontstring:SetPoint(
-                config.anchor.point,
+                getConfigOrDefault("anchor", "point"),
                 parent,
-                config.anchor.relativeTo,
-                config.anchor.xOffset,
-                config.anchor.yOffset
+                getConfigOrDefault("anchor", "relativeTo"),
+                getConfigOrDefault("anchor", "xOffset"),
+                getConfigOrDefault("anchor", "yOffset")
             )
             if not frame:IsShown() then
                 frame:Show()
@@ -75,7 +115,7 @@ namespace.settings = {
             print(
                 thisAddonName
                 .. ": Failed to anchor keystone text to nonexistent frame: "
-                .. config.anchor.frame
+                .. getConfigOrDefault("anchor", "frame")
             )
             if frame:IsShown() then
                 frame:Hide()
@@ -85,11 +125,11 @@ namespace.settings = {
 
     -- Apply the font config to the fontstring.
     ["restyle"] = function()
-        fontstring:SetTextColor(unpack(KeystoneTextConfig.font.color))
+        fontstring:SetTextColor(unpack(getConfigOrDefault("font", "color")))
         fontstring:SetFont(
-            KeystoneTextConfig.font.type,
-            KeystoneTextConfig.font.size,
-            KeystoneTextConfig.font.flags
+            getConfigOrDefault("font", "type"),
+            getConfigOrDefault("font", "size"),
+            getConfigOrDefault("font", "flags")
         )
     end,
 
@@ -110,11 +150,14 @@ namespace.settings = {
                             ["name"] = "Anchor To Frame",
                             ["type"] = "input",
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.anchor = (
+                                    KeystoneTextConfig.anchor or {}
+                                )
                                 KeystoneTextConfig.anchor.frame = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchor.frame
+                                return getConfigOrDefault("anchor", "frame")
                             end,
                         },
 
@@ -146,11 +189,14 @@ namespace.settings = {
                                 "BOTTOMRIGHT",
                             },
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.anchor = (
+                                    KeystoneTextConfig.anchor or {}
+                                )
                                 KeystoneTextConfig.anchor.point = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchor.point
+                                return getConfigOrDefault("anchor", "point")
                             end,
                         },
 
@@ -182,11 +228,17 @@ namespace.settings = {
                                 "BOTTOMRIGHT",
                             },
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.anchor = (
+                                    KeystoneTextConfig.anchor or {}
+                                )
                                 KeystoneTextConfig.anchor.relativeTo = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchor.relativeTo
+                                return getConfigOrDefault(
+                                    "anchor",
+                                    "relativeTo"
+                                )
                             end,
                         },
 
@@ -197,11 +249,14 @@ namespace.settings = {
                             ["softMin"] = -500,
                             ["softMax"] = 500,
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.anchor = (
+                                    KeystoneTextConfig.anchor or {}
+                                )
                                 KeystoneTextConfig.anchor.xOffset = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchor.xOffset
+                                return getConfigOrDefault("anchor", "xOffset")
                             end,
                         },
 
@@ -212,11 +267,14 @@ namespace.settings = {
                             ["softMin"] = -500,
                             ["softMax"] = 500,
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.anchor = (
+                                    KeystoneTextConfig.anchor or {}
+                                )
                                 KeystoneTextConfig.anchor.yOffset = value
                                 self:reanchor()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.anchor.yOffset
+                                return getConfigOrDefault("anchor", "yOffset")
                             end,
                         },
 
@@ -242,11 +300,16 @@ namespace.settings = {
                             ["type"] = "color",
                             ["hasAlpha"] = true,
                             ["set"] = function(info, r, g, b, a)
+                                KeystoneTextConfig.font = (
+                                    KeystoneTextConfig.font or {}
+                                )
                                 KeystoneTextConfig.font.color = {r, g, b, a}
                                 self:restyle()
                             end,
                             ["get"] = function(info)
-                                return unpack(KeystoneTextConfig.font.color)
+                                return unpack(
+                                    getConfigOrDefault("font", "color")
+                                )
                             end,
                         },
 
@@ -255,11 +318,14 @@ namespace.settings = {
                             ["name"] = "Type",
                             ["type"] = "input",
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.font = (
+                                    KeystoneTextConfig.font or {}
+                                )
                                 KeystoneTextConfig.font.type = value
                                 self:restyle()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.font.type
+                                return getConfigOrDefault("font", "type")
                             end,
                         },
 
@@ -270,11 +336,14 @@ namespace.settings = {
                             ["min"] = 6,
                             ["max"] = 100,
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.font = (
+                                    KeystoneTextConfig.font or {}
+                                )
                                 KeystoneTextConfig.font.size = value
                                 self:restyle()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.font.size
+                                return getConfigOrDefault("font", "size")
                             end,
                         },
 
@@ -290,11 +359,14 @@ namespace.settings = {
                                 ["MONOCHROME"]   = "Monochrome",
                             },
                             ["set"] = function(info, value)
+                                KeystoneTextConfig.font = (
+                                    KeystoneTextConfig.font or {}
+                                )
                                 KeystoneTextConfig.font.flags = value
                                 self:restyle()
                             end,
                             ["get"] = function(info)
-                                return KeystoneTextConfig.font.flags
+                                return getConfigOrDefault("font", "flags")
                             end,
                         },
 
