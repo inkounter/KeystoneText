@@ -2,21 +2,24 @@ local thisAddonName, namespace = ...
 
 -- Define the configuration values and how to apply them.
 
-namespace.settings = {
-    ["defaultConfig"] = {
-        ["anchorFrame"] = "UIParent",
-        ["anchorPoint"] = "TOP",
-        ["anchorRelativeTo"] = "TOP",
-        ["xOffset"] = 0,
-        ["yOffset"] = 0,
-    },
+local frame = namespace.frame
+local fontstring = namespace.fontstring
 
+local defaultSettings = {
+    ["anchorFrame"] = "UIParent",
+    ["anchorPoint"] = "TOP",
+    ["anchorRelativeTo"] = "TOP",
+    ["xOffset"] = 0,
+    ["yOffset"] = 0,
+}
+
+namespace.settings = {
     -- Overwrite the `KeystoneTextConfig` global variable with a (shallow) copy
     -- of the defaults.  Note that this does not apply any changes to the UI.
     ["assignDefaultConfig"] = function(self)
         KeystoneTextConfig = {}
         local config = KeystoneTextConfig
-        for k, v in pairs(self.defaultConfig) do
+        for k, v in pairs(defaultSettings) do
             config[k] = v
         end
     end,
@@ -24,8 +27,6 @@ namespace.settings = {
     -- Re-anchor the fontstring.
     ["reanchor"] = function()
         local config = KeystoneTextConfig
-        local frame = namespace.frame
-        local fontstring = namespace.fontstring
         local parent = _G[config.anchorFrame]
         if parent then
             fontstring:ClearAllPoints()
