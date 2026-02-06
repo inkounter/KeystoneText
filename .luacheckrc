@@ -1,19 +1,22 @@
 -- standard: "min" (Lua 5.1)
 std = "lua51"
 
--- Don't report unused variables if they are named "_" or prefixed with "_"
 ignore = {
+    -- Don't report unused variables if they are named "_" or prefixed with "_"
     "211/_.*", -- Unused local variable
     "212/_.*", -- Unused argument
     "213/_.*", -- Unused loop variable
+
+    "432/self", -- Shadowing upvalue argument 'self'
 }
 
 -- Enable all warnings by default
--- codes = true
+codes = true
 
 -- Definitions of globals that are allowed to be defined by this addon
 globals = {
     "KeystoneTextConfig", -- SavedVariable
+    "loadAddon", -- Test helper
 }
 
 -- Definitions of globals that this addon is allowed to access (read-only)
@@ -34,6 +37,20 @@ read_globals = {
 
     -- Addon Namespace (if accessed globally, though currently local)
     "KeystoneText",
+
+    -- Busted / Tests
+    "after_each",
+    "assert",
+    "before_each",
+    "describe",
+    "finally",
+    "it",
+    "match",
+    "mock",
+    "setup",
+    "spy",
+    "stub",
+    "teardown",
 }
 
 -- Exclude third-party libraries from linting (they are not your code)
