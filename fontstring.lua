@@ -1,4 +1,4 @@
-local thisAddonName, namespace = ...
+local _thisAddonName, namespace = ...
 
 -- Provide control over the fontstring holding the actual text.
 
@@ -97,9 +97,6 @@ end
 -- Query the API for what keystone we have, then update the fontstring if
 -- needed.
 namespace.fontstring.updateFromApi = function(self)
-    local mapId = C_MythicPlus.GetOwnedKeystoneChallengeMapID()
-    local level = C_MythicPlus.GetOwnedKeystoneLevel()
-
     updateDisplay(
         self,
         C_MythicPlus.GetOwnedKeystoneChallengeMapID(),
@@ -121,6 +118,6 @@ namespace.fontstring.updateFromItemLink = function(self, itemLink)
 end
 
 -- Return `true` if we currently have a keystone.  Otherwise, return `false`.
-namespace.fontstring.hasKeystone = function(self)
+namespace.fontstring.hasKeystone = function(_self)
     return cachedMapId ~= nil
 end

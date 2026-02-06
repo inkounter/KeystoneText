@@ -124,14 +124,14 @@ namespace.settings = {
                             ["order"] = 0,
                             ["name"] = "Anchor To Frame",
                             ["type"] = "input",
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.anchor = (
                                     KeystoneTextConfig.anchor or {}
                                 )
                                 KeystoneTextConfig.anchor.frame = value
                                 self:reanchor()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault("anchor", "frame")
                             end,
                         },
@@ -163,14 +163,14 @@ namespace.settings = {
                                 "BOTTOM",
                                 "BOTTOMRIGHT",
                             },
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.anchor = (
                                     KeystoneTextConfig.anchor or {}
                                 )
                                 KeystoneTextConfig.anchor.point = value
                                 self:reanchor()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault("anchor", "point")
                             end,
                         },
@@ -202,14 +202,14 @@ namespace.settings = {
                                 "BOTTOM",
                                 "BOTTOMRIGHT",
                             },
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.anchor = (
                                     KeystoneTextConfig.anchor or {}
                                 )
                                 KeystoneTextConfig.anchor.relativeTo = value
                                 self:reanchor()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault(
                                     "anchor",
                                     "relativeTo"
@@ -223,14 +223,14 @@ namespace.settings = {
                             ["type"] = "range",
                             ["softMin"] = -500,
                             ["softMax"] = 500,
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.anchor = (
                                     KeystoneTextConfig.anchor or {}
                                 )
                                 KeystoneTextConfig.anchor.xOffset = value
                                 self:reanchor()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault("anchor", "xOffset")
                             end,
                         },
@@ -241,14 +241,14 @@ namespace.settings = {
                             ["type"] = "range",
                             ["softMin"] = -500,
                             ["softMax"] = 500,
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.anchor = (
                                     KeystoneTextConfig.anchor or {}
                                 )
                                 KeystoneTextConfig.anchor.yOffset = value
                                 self:reanchor()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault("anchor", "yOffset")
                             end,
                         },
@@ -274,14 +274,14 @@ namespace.settings = {
                             ["name"] = "Color",
                             ["type"] = "color",
                             ["hasAlpha"] = true,
-                            ["set"] = function(info, r, g, b, a)
+                            ["set"] = function(_info, r, g, b, a)
                                 KeystoneTextConfig.font = (
                                     KeystoneTextConfig.font or {}
                                 )
                                 KeystoneTextConfig.font.color = {r, g, b, a}
                                 self:restyle()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return unpack(
                                     getConfigOrDefault("font", "color")
                                 )
@@ -292,14 +292,14 @@ namespace.settings = {
                             ["order"] = 1,
                             ["name"] = "Type",
                             ["type"] = "input",
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.font = (
                                     KeystoneTextConfig.font or {}
                                 )
                                 KeystoneTextConfig.font.type = value
                                 self:restyle()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault("font", "type")
                             end,
                         },
@@ -311,14 +311,14 @@ namespace.settings = {
                             ["min"] = 6,
                             ["max"] = 100,
                             ["step"] = 1,
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.font = (
                                     KeystoneTextConfig.font or {}
                                 )
                                 KeystoneTextConfig.font.size = value
                                 self:restyle()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault("font", "size")
                             end,
                         },
@@ -334,14 +334,14 @@ namespace.settings = {
                                 ["THICKOUTLINE"] = "Thick Outline",
                                 ["MONOCHROME"]   = "Monochrome",
                             },
-                            ["set"] = function(info, value)
+                            ["set"] = function(_info, value)
                                 KeystoneTextConfig.font = (
                                     KeystoneTextConfig.font or {}
                                 )
                                 KeystoneTextConfig.font.flags = value
                                 self:restyle()
                             end,
-                            ["get"] = function(info)
+                            ["get"] = function(_info)
                                 return getConfigOrDefault("font", "flags")
                             end,
                         },

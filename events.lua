@@ -91,7 +91,7 @@ local EventHandler = {
         C_Timer.After(1, function() fontstring:updateFromApi() end)
     end,
 
-    ["ITEM_CHANGED"] = function(oldItemLink, newItemLink)
+    ["ITEM_CHANGED"] = function(_oldItemLink, newItemLink)
         -- Listen to this event to observe when we reroll our keystone or when
         -- we drop the keystone by talking to the NPC.
 
@@ -105,5 +105,5 @@ end
 
 frame:SetScript(
     "OnEvent",
-    function(frame, event, ...) EventHandler[event](...) end
+    function(_frame, event, ...) EventHandler[event](...) end
 )
