@@ -51,7 +51,7 @@ local EventHandler = {
 
     ["CHALLENGE_MODE_MAPS_UPDATE"] = function()
         -- We rely on only the first of these updates per `/reload` to know
-        -- when to query the `C_ChallengeMode` API.
+        -- when to query the `C_MythicPlus` API.
 
         fontstring:updateFromApi()
 
