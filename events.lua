@@ -22,21 +22,19 @@ local EventHandler = {
 
             frame:UnregisterEvent("ADDON_LOADED")
 
-            -- Re-register for `BAG_UPDATE_DELAYED` right after the weekly
-            -- reset in order to watch for when we pick up a new keystone.  As
-            -- a side effect, if we get `BAG_UPDATE_DELAYED` for other,
-            -- non-keystone-related bag updates, we'll update the fontstring to
-            -- reflect that we no longer have no keystone.
-            --
-            -- Note that we intentionally *do not* re-register for this event
-            -- *before* the weekly reset.  If we did, and if the event gets
-            -- fired before the weekly reset, then this handler will unregister
-            -- the event, thereby preventing us from seeing the event *after*
-            -- the weekly reset.
+            -- After the weekly reset, force an update of the fontstring and,
+            -- if we don't have a keystone, re-register for
+            -- `BAG_UPDATE_DELAYED`.
 
             C_Timer.After(
-                C_DateAndTime.GetSecondsUntilWeeklyReset() + 5,
-                function() frame:RegisterEvent("BAG_UPDATE_DELAYED") end
+                C_DateAndTime.GetSecondsUntilWeeklyReset() + 1,
+                function()
+                    fontstring:updateFromApi()
+
+                    if not fontstring:hasKeystone() then
+                        frame:RegisterEvent("BAG_UPDATE_DELAYED")
+                    end
+                end
             )
 
             -- If we already have the keystone information upon loading the

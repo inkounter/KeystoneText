@@ -63,7 +63,7 @@ describe("ADDON_LOADED", function()
         frame.script(frame, "ADDON_LOADED", "KeystoneText")
 
         assert.stub(scheduleCallback).was_called_with(
-            789 + 5,    -- The implementation adds a small delay.
+            789 + 1,    -- The implementation adds a small delay.
             match.is_function()
         )
         assert.stub(getKeystoneMap).was_called_with()
