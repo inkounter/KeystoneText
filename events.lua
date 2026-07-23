@@ -80,7 +80,7 @@ local EventHandler = {
         -- The dungeon has started.  Check if we need to update the fontstring
         -- for our keystone.
 
-        fontstring:updateFromApi()
+        C_Timer.After(1, function() fontstring:updateFromApi() end)
     end,
 
     ["CHALLENGE_MODE_COMPLETED"] = function()
